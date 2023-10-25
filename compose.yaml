@@ -13,6 +13,7 @@ services:
       watch:
         - action: rebuild
           path: .
+          
   db:
     image: postgres
     restart: always
