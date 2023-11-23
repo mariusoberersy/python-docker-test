@@ -7,11 +7,9 @@ app = Flask(__name__)
 password = os.environ['POSTGRES_PASSWORD']
 
 
-
-
 @app.route('/')
 def hello_world():
-    return 'Hello, Test!'
+    return 'Hello, ddd!'
 
 
 @app.route('/widgets')
