@@ -11,7 +11,7 @@ password = os.environ['POSTGRES_PASSWORD']
 
 @app.route('/')
 def hello_world():
-    return 'Hello, Docker!'
+    return 'Hello, Test!'
 
 
 @app.route('/widgets')
