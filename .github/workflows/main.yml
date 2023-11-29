@@ -35,10 +35,10 @@ jobs:
       - name: Save Docker image to .tar
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-          docker save ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest > image.tar
+          docker save ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest > ${{github.event.repository.name}}.tar
 
       - name: Upload image tarball
         uses: actions/upload-artifact@v3
         with:
-          name: docker-image
-          path: image.tar
+          name: ${{github.event.repository.name}}
+          path: ${{github.event.repository.name}}.tar
