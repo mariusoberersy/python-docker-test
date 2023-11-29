@@ -9,36 +9,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
+      - 
         name: Checkout
         uses: actions/checkout@v4
-      -
+
+      - 
         name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
+
+      - 
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      -
+
+      - 
         name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:latest
           build-args: |
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
 
-            # Additional steps to save the Docker image as a .tar file
-      - name: Save Docker image to .tar
+      - 
+        name: Export image as tar
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-          docker save ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest > ${{github.event.repository.name}}.tar
+          docker image save ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:latest -o image.tar
 
-      - name: Upload image tarball
+      - 
+        name: Upload image tarball
         uses: actions/upload-artifact@v3
         with:
-          name: ${{github.event.repository.name}}
-          path: ${{github.event.repository.name}}.tar
+          name: docker-image
+          path: image.tar
