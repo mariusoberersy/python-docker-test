@@ -40,5 +40,5 @@ jobs:
       - name: Upload compressed image
         uses: actions/upload-artifact@v3
         with:
-          name: ${{github.event.repository.name}}-image
+          name: ${{github.event.repository.name}}
           path: ${{github.event.repository.name}}.tar.gz
