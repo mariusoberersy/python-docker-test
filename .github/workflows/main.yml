@@ -30,3 +30,15 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
           build-args: |
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+
+            # Additional steps to save the Docker image as a .tar file
+      - name: Save Docker image to .tar
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          docker save ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest > image.tar
+
+      - name: Upload image tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: image.tar
